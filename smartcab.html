@@ -22591,7 +22591,7 @@ epsilon = abs(cos(a*t))
 </li>
 </ul>
 <ul>
-<li>For most of the cases, the policy is correct. A couple of examples in which it did not adhere to the optimal policy are given below.</li>
+<li>For most of the cases, the policy is correct. An example in which it did not adhere to the optimal policy is given below.</li>
 </ul>
 
 <pre><code>('right', 'red', 'right', 'forward')
@@ -22601,15 +22601,6 @@ epsilon = abs(cos(a*t))
  -- left : -1.50
 
  In the above example, it could have gone right but it stayed.
-
-
-('left', 'green', None, 'right')
- -- forward : 0.91
- -- right : 0.31
- -- None : -2.53
- -- left : -13.89
-
- In the above example, it could have gone left but went forward. This is probably due to the fact that the left lane was filled with the traffic.
 
 
 </code></pre>
