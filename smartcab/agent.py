@@ -24,6 +24,7 @@ class LearningAgent(Agent):
         ###########
         # Set any additional class parameters as needed
         self.t = 0
+        self.a = 1
         random.seed(1182)
         
     def reset(self, destination=None, testing=False):
@@ -47,14 +48,16 @@ class LearningAgent(Agent):
             #self.epsilon = self.epsilon - 0.05
             #self.epsilon -= 0.05
             self.t += 1
+            self.a -= 0.005
             
-            #self.epsilon = self.alpha**self.t
+            #self.epsilon = self.a**self.t
             
             #self.epsilon = 1 / (self.t**2)
             #self.epsilon *= 0.99
             #self.epsilon = self.epsilon**(-self.alpha*self.t)
             #self.alpha -= 1 / (1 - math.exp(self.alpha))
-            self.epsilon = math.fabs(math.cos(self.alpha*self.t))
+            #self.epsilon = math.fabs(math.cos(self.alpha*self.t))*math.exp(-self.t/2)
+            self.epsilon = math.fabs(math.cos(self.a*self.t))
 
             #self.epsilon = self.epsilon**(0.02 * self.t)
 
@@ -133,11 +136,15 @@ class LearningAgent(Agent):
         # Otherwise, choose an action with the highest Q-value for the current state
         # Be sure that when choosing an action with highest Q-value that you randomly select between actions that "tie".
         #action = random.choice(self.valid_actions)
+        all_actions = []
+
         if self.learning:
             if self.epsilon > random.random():
                 action = random.choice(self.valid_actions)
             else:
-                action = self.Q[state].keys()[(self.Q[state].values()).index(self.get_maxQ(state))]
+            	#action = self.Q[state].keys()[(self.Q[state].values()).index(self.get_maxQ(state))]
+            	all_actions = [actions for actions, values in self.Q[state].items() if values >= self.get_maxQ(state)]
+            	action = random.choice(all_actions)
         else:
             action = random.choice(self.valid_actions)
         
@@ -173,7 +180,7 @@ class LearningAgent(Agent):
         self.learn(state, action, reward)   # Q-learn
 
         return
-        
+    
 
 def run():
     """ Driving function for running the simulation. 
